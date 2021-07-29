@@ -30,24 +30,23 @@ router.post('/', function(req, res, next) {
 
 /** delete item from list  */
 router.delete('/:name', function(req, res, next) {
-	for (let idx in items) {
-		if (items[idx]["name"] === req.params.name) {
-			items = items.slice(0, idx).concat(items.slice(idx+1));
-			return res.json({response:
-				{message:"Item deleted!"}});
-		}
-	}
+	items = items.filter((elem) => elem["name"] !== req.params.name);
+	// items = items.slice(0, idx).concat(items.slice(idx+1));
+	return res.json({response:
+		{message:"Item deleted!"}});
 });
 
 /** patch item  */
 router.patch('/:name', function(req, res, next) {
-	for (let idx in items) {
-		if (items[idx]["name"] === req.params.name) {
-			items[idx] = req.body;
-			return res.json({response:
-				{updated:req.body}});
-		}
-	}
+	items = items.map(elem => elem["name"] !== req.params.name ? elem : req.body)
+	// for (let idx in items) {
+	// 	if (items[idx]["name"] === req.params.name) {
+	// 		items[idx] = req.body;
+	// 		
+	// 	}
+	// }
+	return res.json({response:
+		{updated:req.body}});
 });
 
 
